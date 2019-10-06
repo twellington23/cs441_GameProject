@@ -13,10 +13,16 @@ class GameScene: SKScene {
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
+    let playButton = SKSpriteNode(imageNamed:"play")
+    let hero = SKSpriteNode(imageNamed:"hero")
     
     override func didMove(to view: SKView) {
+        backgroundColor = SKColor.purple
+        hero.position = CGPoint(x: size.width * 0.1, y: size.width * 0.2)
+        addChild(hero)
         
         // Get label node from scene and store it for use later
+        /*
         self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
         if let label = self.label {
             label.alpha = 0.0
@@ -35,6 +41,7 @@ class GameScene: SKScene {
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }
+        */
     }
     
     

@@ -21,14 +21,17 @@ class GameViewController: UIViewController {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
                 
+                let scene = GameScene(size: view.bounds.size)
+                //let skView = view as! SKView
+                
                 // Present the scene
                 view.presentScene(scene)
             }
             
             view.ignoresSiblingOrder = true
             
-            view.showsFPS = true
-            view.showsNodeCount = true
+            view.showsFPS = false
+            view.showsNodeCount = false
         }
     }
 
