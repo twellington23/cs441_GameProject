@@ -17,9 +17,11 @@ class GameScene: SKScene {
     let hero = SKSpriteNode(imageNamed:"hero")
     
     override func didMove(to view: SKView) {
-        backgroundColor = SKColor.purple
-        hero.position = CGPoint(x: size.width * 0.1, y: size.width * 0.2)
+        backgroundColor = SKColor.white
+        hero.position = CGPoint(x: size.width * 0.1, y: size.width * 0.1)
         addChild(hero)
+        
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addBlock), SKAction.wait(forDuration: 1.0)])))
         
         // Get label node from scene and store it for use later
         /*
@@ -44,6 +46,21 @@ class GameScene: SKScene {
         */
     }
     
+    //func random(min: CGFloat, max: CGFloat) -> CGFloat {
+    //  return random() * (max - min) + min
+    //}
+    
+    func addBlock(){
+        let block = SKSpriteNode(imageNamed: "block")
+        block.position = CGPoint(x: size.width + block.size.width/2, y: size.width * 0.1)
+        addChild(block)
+        
+        let duration = CGFloat(2.0)
+        let move = SKAction.move(to: CGPoint(x: -block.size.width/2, y: size.width * 0.1),
+        duration: TimeInterval(duration))
+        let finish = SKAction.removeFromParent()
+        block.run(SKAction.sequence([move, finish]))
+    }
     
     func touchDown(atPoint pos : CGPoint) {
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {
