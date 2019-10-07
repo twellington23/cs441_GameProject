@@ -15,6 +15,7 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     let playButton = SKSpriteNode(imageNamed:"play")
     let hero = SKSpriteNode(imageNamed:"hero")
+    //let jump = SKAction.move(to: CGPoint(x: size.width * 0.3, y: size.width * 0.1), duration: TimeInterval(CGFloat(2.0)))
     
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.white
@@ -99,7 +100,17 @@ class GameScene: SKScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        //for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+        let jump = SKAction.move(to: CGPoint(x: size.width * 0.1, y: size.width * 0.3), duration: TimeInterval(CGFloat(0.4)))
+        let fall = SKAction.move(to: CGPoint(x: size.width * 0.1, y: size.width * 0.1), duration: TimeInterval(CGFloat(0.4)))
+        
+        guard let touch = touches.first else{
+            return
+        }
+        
+        let location = touch.location(in: self)
+        //hero.run(SKAction.move(to: CGPoint(x: size.width * 0.1, y: size.width * 0.2), duration: TimeInterval(CGFloat(0.25))))
+        hero.run(SKAction.sequence([jump, fall]))
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
