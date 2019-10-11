@@ -15,14 +15,26 @@ class GameScene: SKScene {
     private var spinnyNode : SKShapeNode?
     let playButton = SKSpriteNode(imageNamed:"play")
     let hero = SKSpriteNode(imageNamed:"hero")
-    //let jump = SKAction.move(to: CGPoint(x: size.width * 0.3, y: size.width * 0.1), duration: TimeInterval(CGFloat(2.0)))
+    let grass = SKSpriteNode(imageNamed: "grass")
+    let sky = SKSpriteNode(imageNamed: "sky")
+    let sky2 = SKSpriteNode(imageNamed: "sky")
     
     override func didMove(to view: SKView) {
-        backgroundColor = SKColor.white
-        hero.position = CGPoint(x: size.width * 0.1, y: size.width * 0.1)
+        backgroundColor = SKColor.lightGray
+        hero.position = CGPoint(x: size.width * 0.1, y: size.width * 0.08)
+        hero.zPosition = 0
         addChild(hero)
         
-        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addBlock), SKAction.wait(forDuration: 1.0)])))
+        sky.zPosition = -1
+        sky.position = CGPoint(x: size.width * 0.3, y: size.width * 0.45)
+        addChild(sky)
+        sky2.zPosition = -1
+        sky2.position = CGPoint(x: size.width * 0.7, y: size.width * 0.45)
+        addChild(sky2)
+        
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addGrass), SKAction.wait(forDuration: 1.0)])))
+        
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addEye), SKAction.wait(forDuration: 4.0)])))
         
         // Get label node from scene and store it for use later
         /*
@@ -50,17 +62,31 @@ class GameScene: SKScene {
     //func random(min: CGFloat, max: CGFloat) -> CGFloat {
     //  return random() * (max - min) + min
     //}
-    
-    func addBlock(){
-        let block = SKSpriteNode(imageNamed: "block")
-        block.position = CGPoint(x: size.width + block.size.width/2, y: size.width * 0.1)
-        addChild(block)
+    func addGrass(){
+        let grass = SKSpriteNode(imageNamed: "grass")
+        grass.zPosition = 1
+        //grass.position = CGPoint(x: size.width * 0.511, y: size.width * 0.031)
+        grass.position = CGPoint(x: size.width, y: size.width * 0.031)
+        addChild(grass)
         
-        let duration = CGFloat(2.0)
-        let move = SKAction.move(to: CGPoint(x: -block.size.width/2, y: size.width * 0.1),
+        let duration = CGFloat(4.0)
+        let move = SKAction.move(to: CGPoint(x: -grass.size.width/2, y: size.width * 0.031),
         duration: TimeInterval(duration))
         let finish = SKAction.removeFromParent()
-        block.run(SKAction.sequence([move, finish]))
+        grass.run(SKAction.sequence([move, finish]))
+    }
+    
+    func addEye(){
+        let eye = SKSpriteNode(imageNamed: "eye")
+        eye.zPosition = 0
+        eye.position = CGPoint(x: size.width + eye.size.width/2, y: size.width * 0.085)
+        addChild(eye)
+        
+        let duration = CGFloat(2.0)
+        let move = SKAction.move(to: CGPoint(x: -eye.size.width/2, y: size.width * 0.085),
+        duration: TimeInterval(duration))
+        let finish = SKAction.removeFromParent()
+        eye.run(SKAction.sequence([move, finish]))
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -102,21 +128,19 @@ class GameScene: SKScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //for t in touches { self.touchUp(atPoint: t.location(in: self)) }
         let jump = SKAction.move(to: CGPoint(x: size.width * 0.1, y: size.width * 0.3), duration: TimeInterval(CGFloat(0.4)))
-        let fall = SKAction.move(to: CGPoint(x: size.width * 0.1, y: size.width * 0.1), duration: TimeInterval(CGFloat(0.4)))
+        let fall = SKAction.move(to: CGPoint(x: size.width * 0.1, y: size.width * 0.08), duration: TimeInterval(CGFloat(0.5)))
         
         guard let touch = touches.first else{
             return
         }
         
         let location = touch.location(in: self)
-        //hero.run(SKAction.move(to: CGPoint(x: size.width * 0.1, y: size.width * 0.2), duration: TimeInterval(CGFloat(0.25))))
         hero.run(SKAction.sequence([jump, fall]))
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches { self.touchUp(atPoint: t.location(in: self)) }
     }
-    
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
