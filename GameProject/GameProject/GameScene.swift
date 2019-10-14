@@ -9,7 +9,14 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
+    var scoreLabel: SKLabelNode!
+
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
     
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
@@ -21,9 +28,7 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         backgroundColor = SKColor.lightGray
-        hero.position = CGPoint(x: size.width * 0.1, y: size.width * 0.08)
-        hero.zPosition = 0
-        addChild(hero)
+        physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         
         sky.zPosition = -1
         sky.position = CGPoint(x: size.width * 0.3, y: size.width * 0.45)
@@ -32,9 +37,23 @@ class GameScene: SKScene {
         sky2.position = CGPoint(x: size.width * 0.7, y: size.width * 0.45)
         addChild(sky2)
         
-        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addGrass), SKAction.wait(forDuration: 1.0)])))
+        scoreLabel = SKLabelNode(fontNamed: "Courier")
+        scoreLabel.text = "Score: 0"
+        scoreLabel.horizontalAlignmentMode = .right
+        scoreLabel.position = CGPoint(x: size.width * 0.6, y: size.width * 0.4)
+        scoreLabel.zPosition = 3
+        addChild(scoreLabel)
         
-        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addEye), SKAction.wait(forDuration: 4.0)])))
+        hero.position = CGPoint(x: size.width * 0.1, y: size.width * 0.08)
+        hero.zPosition = 0
+        hero.physicsBody = SKPhysicsBody(rectangleOf: hero.size)
+        hero.physicsBody?.isDynamic = true
+        hero.name = "hero"
+        addChild(hero)
+        
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addGrass), SKAction.wait(forDuration: 0.75)])))
+        
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addBug), SKAction.wait(forDuration: 4.0)])))
         
         // Get label node from scene and store it for use later
         /*
@@ -65,28 +84,39 @@ class GameScene: SKScene {
     func addGrass(){
         let grass = SKSpriteNode(imageNamed: "grass")
         grass.zPosition = 1
-        //grass.position = CGPoint(x: size.width * 0.511, y: size.width * 0.031)
-        grass.position = CGPoint(x: size.width, y: size.width * 0.031)
+        //grass.position = CGPoint(x: size.width, y: size.width * 0.031)
+        grass.position = CGPoint(x: size.width, y: size.width * 0.001)
+        //grass.physicsBody = SKPhysicsBody(rectangleOf: grass.size)
+        //grass.physicsBody?.isDynamic = true
         addChild(grass)
         
         let duration = CGFloat(4.0)
-        let move = SKAction.move(to: CGPoint(x: -grass.size.width/2, y: size.width * 0.031),
-        duration: TimeInterval(duration))
+        //let move = SKAction.move(to: CGPoint(x: -grass.size.width/2, y: size.width * 0.031),
+        //duration: TimeInterval(duration))
+        
+        let move = SKAction.move(to: CGPoint(x: -grass.size.width/2, y: size.width * 0.001), duration: TimeInterval(duration))
         let finish = SKAction.removeFromParent()
         grass.run(SKAction.sequence([move, finish]))
     }
     
-    func addEye(){
-        let eye = SKSpriteNode(imageNamed: "eye")
-        eye.zPosition = 0
-        eye.position = CGPoint(x: size.width + eye.size.width/2, y: size.width * 0.085)
-        addChild(eye)
+    func addBug(){
+        let bug = SKSpriteNode(imageNamed: "bug")
+        bug.zPosition = 0
+        bug.position = CGPoint(x: size.width + bug.size.width/2, y: size.width * 0.085)
+        bug.physicsBody = SKPhysicsBody(rectangleOf: bug.size)
+        bug.physicsBody?.isDynamic = true
+        bug.name = "bug"
+        addChild(bug)
         
         let duration = CGFloat(2.0)
-        let move = SKAction.move(to: CGPoint(x: -eye.size.width/2, y: size.width * 0.085),
+        let move = SKAction.move(to: CGPoint(x: -bug.size.width/2, y: size.width * 0.085),
         duration: TimeInterval(duration))
         let finish = SKAction.removeFromParent()
-        eye.run(SKAction.sequence([move, finish]))
+        bug.run(SKAction.sequence([move, finish]))
+        score+=1
+        //if bug.intersects(hero){
+        //    score += 1
+        //}
     }
     
     func touchDown(atPoint pos : CGPoint) {
