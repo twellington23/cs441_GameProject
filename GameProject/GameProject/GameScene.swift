@@ -27,8 +27,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let sky2 = SKSpriteNode(imageNamed: "sky")
     
     override func didMove(to view: SKView) {
-        backgroundColor = SKColor.lightGray
         physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+        physicsWorld.contactDelegate = self
         
         sky.zPosition = -1
         sky.position = CGPoint(x: size.width * 0.3, y: size.width * 0.45)
@@ -47,6 +47,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         hero.position = CGPoint(x: size.width * 0.1, y: size.width * 0.08)
         hero.zPosition = 0
         hero.physicsBody = SKPhysicsBody(rectangleOf: hero.size)
+        hero.physicsBody?.restitution = 0.0
         hero.physicsBody?.isDynamic = true
         hero.name = "hero"
         addChild(hero)
@@ -54,46 +55,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addGrass), SKAction.wait(forDuration: 0.75)])))
         
         run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addBug), SKAction.wait(forDuration: 4.0)])))
-        
-        // Get label node from scene and store it for use later
-        /*
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
-        }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
-        */
     }
     
-    //func random(min: CGFloat, max: CGFloat) -> CGFloat {
-    //  return random() * (max - min) + min
-    //}
     func addGrass(){
         let grass = SKSpriteNode(imageNamed: "grass")
         grass.zPosition = 1
-        //grass.position = CGPoint(x: size.width, y: size.width * 0.031)
         grass.position = CGPoint(x: size.width, y: size.width * 0.001)
-        //grass.physicsBody = SKPhysicsBody(rectangleOf: grass.size)
-        //grass.physicsBody?.isDynamic = true
         addChild(grass)
         
         let duration = CGFloat(4.0)
-        //let move = SKAction.move(to: CGPoint(x: -grass.size.width/2, y: size.width * 0.031),
-        //duration: TimeInterval(duration))
-        
         let move = SKAction.move(to: CGPoint(x: -grass.size.width/2, y: size.width * 0.001), duration: TimeInterval(duration))
         let finish = SKAction.removeFromParent()
         grass.run(SKAction.sequence([move, finish]))
@@ -101,22 +71,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addBug(){
         let bug = SKSpriteNode(imageNamed: "bug")
+        
+        let num = Int.random(in: 1 ... 2)
+        if num == 1{
+            bug.position = CGPoint(x: size.width + bug.size.width/2, y: size.width * 0.065)
+        } else {
+            bug.position = CGPoint(x: size.width + bug.size.width/2, y: size.width * 0.15)
+        }
+            
         bug.zPosition = 0
-        bug.position = CGPoint(x: size.width + bug.size.width/2, y: size.width * 0.085)
         bug.physicsBody = SKPhysicsBody(rectangleOf: bug.size)
-        bug.physicsBody?.isDynamic = true
+        bug.physicsBody!.contactTestBitMask = bug.physicsBody!.collisionBitMask
+        bug.physicsBody?.isDynamic = false
         bug.name = "bug"
         addChild(bug)
         
         let duration = CGFloat(2.0)
-        let move = SKAction.move(to: CGPoint(x: -bug.size.width/2, y: size.width * 0.085),
+        
+        let move1 = SKAction.move(to: CGPoint(x: -bug.size.width/2, y: size.width * 0.065),
+        duration: TimeInterval(duration))
+        let move2 = SKAction.move(to: CGPoint(x: -bug.size.width/2, y: size.width * 0.15),
         duration: TimeInterval(duration))
         let finish = SKAction.removeFromParent()
-        bug.run(SKAction.sequence([move, finish]))
-        score+=1
-        //if bug.intersects(hero){
-        //    score += 1
-        //}
+        if num == 1 {
+            bug.run(SKAction.sequence([move1, finish]))
+        } else {
+            bug.run(SKAction.sequence([move2, finish]))
+        }
+        
+        if bug.position.x > CGFloat(size.width * 0.08){
+            score += 1
+        }
     }
     
     func touchDown(atPoint pos : CGPoint) {
@@ -174,5 +159,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+    }
+    
+    func collisionBetween(bug: SKNode, object: SKNode) {
+        if object.name == "hero" {
+            destroy(bug: bug)
+            destroy(bug: hero)
+            
+            score = 0
+            
+            hero.position = CGPoint(x: size.width * 0.1, y: size.width * 0.08)
+            addChild(hero)
+        }
+    }
+
+    func destroy(bug: SKNode) {
+        bug.removeFromParent()
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        guard let nodeA = contact.bodyA.node else { return }
+        guard let nodeB = contact.bodyB.node else { return }
+
+        if nodeA.name == "bug" {
+            collisionBetween(bug: nodeA, object: nodeB)
+        } else if nodeB.name == "bug" {
+            collisionBetween(bug: nodeB, object: nodeA)
+        }
     }
 }
