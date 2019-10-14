@@ -1,0 +1,130 @@
+commit 416032963b306bb0c96919d0c159885a4c7b4535
+Author: Tyler Wellington <twellin1@binghamton.edu>
+Date:   Mon Oct 14 02:24:16 2019 -0400
+
+    finished game
+
+ .../UserInterfaceState.xcuserstate                 | Bin 27607 -> 27586 bytes
+ GameProject/GameProject/GameScene.swift            |  92 ++++++++++++---------
+ 2 files changed, 52 insertions(+), 40 deletions(-)
+
+commit 3e96c7f537fc99923de872ee936ee799323b7aa1
+Author: Tyler Wellington <twellin1@binghamton.edu>
+Date:   Sun Oct 13 23:58:38 2019 -0400
+
+    working on points and physics
+
+ .../UserInterfaceState.xcuserstate                 | Bin 27743 -> 27607 bytes
+ .../{eye.imageset => bug.imageset}/Contents.json   |   2 +-
+ .../Assets.xcassets/bug.imageset/bug.png           | Bin 0 -> 4554 bytes
+ .../Assets.xcassets/eye.imageset/eye.png           | Bin 6340 -> 0 bytes
+ .../Assets.xcassets/grass.imageset/Contents.json   |   2 +-
+ .../Assets.xcassets/grass.imageset/grass.png       | Bin 0 -> 59742 bytes
+ .../Assets.xcassets/grass.imageset/grass2.png      | Bin 19502 -> 0 bytes
+ GameProject/GameProject/GameScene.swift            |  64 +++++++++++++++------
+ 8 files changed, 49 insertions(+), 19 deletions(-)
+
+commit 571494d9419ee7dce84d5e52bd9afd44a8baf07e
+Author: Tyler Wellington <twellin1@binghamton.edu>
+Date:   Fri Oct 11 09:20:05 2019 -0400
+
+    working on game code
+
+ .../UserInterfaceState.xcuserstate                 | Bin 27986 -> 27743 bytes
+ .../AppIcon.appiconset/Contents.json               |   3 +-
+ .../AppIcon.appiconset/bike (1).png                | Bin 0 -> 3987 bytes
+ .../Assets.xcassets/block.imageset/block.png       | Bin 839 -> 0 bytes
+ .../Contents.json                                  |   2 +-
+ .../Assets.xcassets/eye.imageset/eye.png           | Bin 0 -> 6340 bytes
+ .../Assets.xcassets/grass.imageset/Contents.json   |  21 +++++++++
+ .../Assets.xcassets/grass.imageset/grass2.png      | Bin 0 -> 19502 bytes
+ .../Assets.xcassets/hero.imageset/Contents.json    |   2 +-
+ .../Assets.xcassets/hero.imageset/bike (1).png     | Bin 0 -> 16554 bytes
+ .../Assets.xcassets/hero.imageset/hero.png         | Bin 12416 -> 0 bytes
+ .../{block.imageset => sky.imageset}/Contents.json |   2 +-
+ .../Assets.xcassets/sky.imageset/sunset.png        | Bin 0 -> 42599 bytes
+ .../Assets.xcassets/wblock.imageset/block.png      | Bin 2712 -> 0 bytes
+ GameProject/GameProject/GameScene.swift            |  50 +++++++++++++++------
+ GameProject/GameProject/GameViewController.swift   |   2 +-
+ 16 files changed, 64 insertions(+), 18 deletions(-)
+
+commit c3004997616040bc7d1a3cbce59b1ad2e3f12876
+Author: Tyler Wellington <twellin1@binghamton.edu>
+Date:   Mon Oct 7 00:07:04 2019 -0400
+
+    character can jump
+
+ .../UserInterfaceState.xcuserstate                  | Bin 27925 -> 27986 bytes
+ GameProject/GameProject/GameScene.swift             |  13 ++++++++++++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+commit 2a2b9f1bee3f53441c2b177c1a025a440de1a083
+Author: Tyler Wellington <twellin1@binghamton.edu>
+Date:   Sun Oct 6 22:09:53 2019 -0400
+
+    implemented moving blocks
+
+ .../UserInterfaceState.xcuserstate                 | Bin 26715 -> 27925 bytes
+ .../Assets.xcassets/block.imageset/Contents.json   |  21 +++++++++++++++++++++
+ .../Assets.xcassets/block.imageset/block.png       | Bin 0 -> 839 bytes
+ .../Assets.xcassets/hero.imageset/Contents.json    |   2 +-
+ .../hero.imageset/UNADJUSTEDNONRAW_mini_97b.jpg    | Bin 20337 -> 0 bytes
+ .../Assets.xcassets/hero.imageset/hero.png         | Bin 0 -> 12416 bytes
+ .../Assets.xcassets/wblock.imageset/Contents.json  |  21 +++++++++++++++++++++
+ .../Assets.xcassets/wblock.imageset/block.png      | Bin 0 -> 2712 bytes
+ GameProject/GameProject/GameScene.swift            |  21 +++++++++++++++++++--
+ GameProject/GameProject/Info.plist                 |   1 -
+ 10 files changed, 62 insertions(+), 4 deletions(-)
+
+commit 886bcfacc2ab22644076b9e9949543ae22fe21e2
+Author: Tyler Wellington <twellin1@binghamton.edu>
+Date:   Sat Oct 5 22:11:26 2019 -0400
+
+    working on game scene
+
+ .../UserInterfaceState.xcuserstate                 | Bin 11841 -> 26715 bytes
+ GameProject/GameProject/Actions.sks                | Bin 1892 -> 1638 bytes
+ .../Assets.xcassets/hero.imageset/Contents.json    |  21 +++++++++++++++++++++
+ .../hero.imageset/UNADJUSTEDNONRAW_mini_97b.jpg    | Bin 0 -> 20337 bytes
+ .../Assets.xcassets/play.imageset/Contents.json    |  21 +++++++++++++++++++++
+ .../L97IvWmYTJCfKAdmwzZhpQ_mini_97a.jpg            | Bin 0 -> 25890 bytes
+ GameProject/GameProject/GameScene.sks              | Bin 4694 -> 4944 bytes
+ GameProject/GameProject/GameScene.swift            |   7 +++++++
+ GameProject/GameProject/GameViewController.swift   |   7 +++++--
+ 9 files changed, 54 insertions(+), 2 deletions(-)
+
+commit 8982557cce8bc504ee0c21cda034d51294554370
+Author: Tyler Wellington <twellin1@binghamton.edu>
+Date:   Fri Sep 27 10:40:18 2019 -0400
+
+    working on swift code
+
+ GameProject/GameProject.xcodeproj/project.pbxproj  | 597 +++++++++++++++++++++
+ .../project.xcworkspace/contents.xcworkspacedata   |   7 +
+ .../xcshareddata/IDEWorkspaceChecks.plist          |   8 +
+ .../UserInterfaceState.xcuserstate                 | Bin 0 -> 11841 bytes
+ .../xcschemes/xcschememanagement.plist             |  14 +
+ GameProject/GameProject/Actions.sks                | Bin 0 -> 1892 bytes
+ GameProject/GameProject/AppDelegate.swift          |  41 ++
+ .../AppIcon.appiconset/Contents.json               |  98 ++++
+ .../GameProject/Assets.xcassets/Contents.json      |   6 +
+ .../GameProject/Base.lproj/LaunchScreen.storyboard |  25 +
+ GameProject/GameProject/Base.lproj/Main.storyboard |  24 +
+ GameProject/GameProject/GameScene.sks              | Bin 0 -> 4694 bytes
+ GameProject/GameProject/GameScene.swift            |  89 +++
+ GameProject/GameProject/GameViewController.swift   |  50 ++
+ GameProject/GameProject/Info.plist                 |  47 ++
+ .../GameProjectTests/GameProjectTests.swift        |  34 ++
+ GameProject/GameProjectTests/Info.plist            |  22 +
+ .../GameProjectUITests/GameProjectUITests.swift    |  43 ++
+ GameProject/GameProjectUITests/Info.plist          |  22 +
+ 19 files changed, 1127 insertions(+)
+
+commit 85941ccaadbfcd52c2006298c0d4eefa9bcbd93f
+Author: twellington23 <42653953+twellington23@users.noreply.github.com>
+Date:   Fri Sep 27 10:32:49 2019 -0400
+
+    Initial commit
+
+ README.md | 2 ++
+ 1 file changed, 2 insertions(+)
