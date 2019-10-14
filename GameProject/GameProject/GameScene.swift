@@ -54,7 +54,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addGrass), SKAction.wait(forDuration: 0.75)])))
         
-        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addBug), SKAction.wait(forDuration: 4.0)])))
+        let duration = CGFloat.random(in: 0.5 ... 3.0)
+        run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addBug), SKAction.wait(forDuration: TimeInterval(duration))])))
     }
     
     func addGrass(){
@@ -86,7 +87,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         bug.name = "bug"
         addChild(bug)
         
-        let duration = CGFloat(2.0)
+        //let duration = CGFloat(2.0)
+        let duration = CGFloat.random(in: 1.5 ... 3.0)
         
         let move1 = SKAction.move(to: CGPoint(x: -bug.size.width/2, y: size.width * 0.065),
         duration: TimeInterval(duration))
